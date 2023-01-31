@@ -134,9 +134,13 @@ class AddCategory(LoginRequiredMixin, DataMixin, CreateView):
         return Book.objects.filter(is_published=True)
 
 
-def basket(request):
-    return HttpResponse("Страница корзины")
+class Basket(DataMixin, TemplateView):
+    template_name = 'book/basket.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Корзина")
+        return dict(list(context.items())+list(c_def.items()))
 
 # def add_book(request):
 #     if request.method == 'POST':
