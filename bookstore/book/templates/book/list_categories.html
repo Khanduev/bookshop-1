@@ -1,0 +1,8 @@
+{% for c in category %}
+
+    {% if c.slug == cat_selected %}
+         <li class="navbar-brand">{{ c.name }}</a></li>
+    {% else %}
+         <li class="navbar-brand bg-light"><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+    {% endif %}
+{% endfor %}

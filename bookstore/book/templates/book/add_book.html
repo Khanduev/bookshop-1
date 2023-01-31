@@ -1,0 +1,21 @@
+{% extends 'book/base.html' %}
+
+{% block content %}
+<hr>
+
+<h1>{{ title }}</h1>
+<form action="{% url 'add_book' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+    {% for i in form %}
+    <p><label class="form-label" for="{{ i.if_for_label }}">{{ i.label }}: </label>{{ i }}</p>
+    <div class="form-error">{{ i.errors }}</div>
+    {% endfor %}
+
+    <button type="submit">Добавить</button>
+</form>
+
+<hr>
+{% endblock content %}

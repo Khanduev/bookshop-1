@@ -1,0 +1,29 @@
+{% extends 'book/base.html' %}
+
+{% block content %}
+<ul>
+    <hr>
+    {% for i in books %}
+    <li>
+        <div class="navbar navbar-expand-lg navbar-dark bg-light">
+            <p class="collapse navbar-collapse">Категория: {{ i.category }}</p>
+            <p class="last">Дата: {{ i.time_update|date:"d-m-y H:i:s" }}</p>
+        </div>
+        <div class="navbar navbar-expand-lg ">
+            <div>
+                {% if i.photo %}
+                <p><img src="{{ i.photo.url }}" width="120px" height="50%" alt="Иллюстрация" vspace="5" hspace="10"></p>
+                {% endif %}
+            </div>
+            <div>
+                <h4>{{ i.name }}</h4>
+                <h5>{{ i.artist }}</h5>
+                <p>{{ i.plot|truncatewords:50 }}
+            </div>
+        </div>
+        <div><a href="{{ i.get_absolute_url }}"> Подробнее </a></div>
+        <hr>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% load static %}
+{% load book_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{ title }}</title>
+        <link type="text/css" href="{% static 'book/css/styles.css' %}" rel="stylesheet" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Bare - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <div>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li><a class="nav-link active" href="{% url 'home' %}">Главная страница</a></li>
+                        {% for i in menu %}
+                        <li><a class="nav-link active" href="{% url i.url_name %}">{{ i.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="container2">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if request.user.is_authenticated %}
+                            <li><a class="nav-link" href="{% url 'account' %}"> Здравствуйте, {{user.username}}</a></li>
+                            <li><a class="nav-link active" href="{% url 'logout' %}">Выйти</a></li>
+                        {% else %}
+                            <li><a class="nav-link active" href="{% url 'register' %}">Регистрация</a></li>
+                            <li><a class="nav-link active" href="{% url 'login' %}">Войти</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+
+    <table class="table-content" border=0 cellpadding="10" cellspacing="0">
+        <tr>
+            <!-- Sidebar слева -->
+            <td valign="top" class="bg-light">
+
+                {% if cat_selected == 0 %}
+                    <li class="navbar-brand"> Все категории </li>
+                {% else %}
+                    <li class="navbar-brand"><a href="{% url 'home' %}">Все категории</a></li>
+                {% endif %}
+
+<!--                {% show_category 'name' cat_selected %}-->
+
+                {% for c in category %}
+                    {% if c.pk == cat_selected %}
+                        <li class="navbar-brand"><a>{{ c.name }}</a></li>
+                    {% else %}
+                        <li class="navbar-brand bg-light"><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+            </td>
+            <!-- Конец Sidebar'а -->
+            <td valign="top" class="content">
+                <!-- Блок контента -->
+                <div>
+                    {% block content %}
+                    {% endblock %}
+
+                    {% if page_obj.has_other_pages %}
+                    <nav class="list-pages">
+                        <ul>
+                            {% if page_obj.has_previous %}
+                                <li class="page-num"><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                            {% endif %}
+
+                            {% for p in paginator.page_range %}
+                                {% if page_obj.number == p %}
+                                    <li class="page-num"><a> {{ p }}</a></li>
+                                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                    <li class="page-num"><a href="?page={{ p }}">{{ p }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="page-num"><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+                <!-- Конец блока контента -->
+            </td>
+        </tr>
+    </table>
+    </body>
+</html>

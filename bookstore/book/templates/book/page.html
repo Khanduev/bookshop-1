@@ -1,0 +1,24 @@
+{% extends 'book/base.html' %}
+
+{% block content %}
+<hr>
+<ul>
+    <div class="navbar navbar-expand-lg navbar-dark bg-light">
+        <p class="collapse navbar-collapse" >Категория: {{ books.category }}</p>
+        <p class="last " >Дата: {{ books.time_update|date:"d-m-y H:i:s" }}</p>
+    </div>
+    <div class="navbar navbar-expand-lg ">
+        <div>
+            {% if books.photo %}
+            <p><img src="{{ books.photo.url }}" width="200px" height="50%" alt="Иллюстрация" vspace="5" hspace="10"></p>
+            {% endif %}
+        </div>
+        <div>
+            <h4>{{ books.name }}</h4>
+            <h5>{{ books.artist }}</h5>
+            <p>{{ books.plot }}
+        </div>
+    </div>
+</ul>
+<hr>
+{% endblock content %}
